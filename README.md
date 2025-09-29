@@ -1,6 +1,6 @@
 # Rethinking Reward Models for Multi-Domain Test-Time Scaling
 
-## Synthetic Verfication Rationale Generation for gORM/gPRM
+## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
 
 ```python
 # TASK_TYPE can be one of:
