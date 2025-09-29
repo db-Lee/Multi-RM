@@ -73,13 +73,14 @@ python -m discriminative.get_reward \
 
 # Inference for gORM / gPRM
 # Use the appropriate model checkpoint:
-# dongboklee/gORM-14B
-# dongboklee/gPRM-14B
+# dongboklee/gORM-14B, TASK_TYPE=gORM
+# dongboklee/gPRM-14B, TASK_TYPE=gPRM
 
 python -m generative.get_reward \
   --data_path dongboklee/[TEST] \
   --model_id dongboklee/gORM-14B \# or use your own trained models
   --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
+  --task_type gORM \
   --category all
 ```
 
