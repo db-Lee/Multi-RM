@@ -22,6 +22,4 @@ jobs/
 # Ignore amltignore
 .amltignore
 
-visualization/
-
 model_cache

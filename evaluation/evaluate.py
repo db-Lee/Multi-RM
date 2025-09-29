@@ -348,7 +348,7 @@ def save_results_csv(all_results, model_names, categories, N_max_values, output_
                 writer.writerow(row)
             
             # Oracle
-            row = [N_max, f'Pass@{N_max}']
+            row = [N_max, 'Pass@N']
             oracle_overall_runs = []
             oracle_means = []
             oracle_stds = []

@@ -1,4 +1,4 @@
-model_id: dongboklee/dPRM-14B-PRM800K
+model_id: 'deepseek-ai/DeepSeek-R1-Distill-Qwen-14B'
 task_type: "dPRM"
 
 # ─── Data ────────────────────────────────────────────────────
@@ -8,8 +8,8 @@ max_length: 650
 
 # ─── Hugging Face Trainer arguments ──────────────────────────
 lora_config:
-  r: 32
-  lora_alpha: 16
+  r: 16
+  lora_alpha: 32
   lora_dropout: 0.1
   target_modules: 'all-linear'
   task_type: 'CAUSAL_LM'
@@ -21,7 +21,7 @@ training_args:
   learning_rate: 1.0e-4
   num_train_epochs: 1
   effective_batch_size: 16
-  lr_scheduler_type: linear
+  lr_scheduler_type: cosine
   warmup_ratio: 0.1
   weight_decay: 0.01
   bf16: true
