@@ -1,0 +1,27 @@
+# Ignore Python cache
+*__pycache__
+
+# Ignore environment files
+wandb/
+
+# Ignore slurm
+slurm*
+
+# Ignore training results
+training_results/
+
+# Ignore evaluation results
+evaluation_results/
+
+# Ignore datasets
+local_datasets/
+
+# Ignore jobs
+jobs/
+
+# Ignore amltignore
+.amltignore
+
+visualization/
+
+model_cache
