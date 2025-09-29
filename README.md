@@ -121,6 +121,8 @@ CSV_FILE=[choose_one_above]
 python -m evaluation.plot \
   --input_file ${CSV_FILE} \
   --output_file [OUTPUT_FILE_PREFIX] # example -> example.png / example.pdf
+```
+
 ---
 
 ## Assets
