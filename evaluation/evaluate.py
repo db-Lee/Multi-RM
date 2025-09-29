@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 import hashlib
 import csv
-from collections import defaultdict, Counter
+from collections import defaultdict
 from tqdm import tqdm
 
 def exact_match(pred, gold):
@@ -12,6 +12,7 @@ def exact_match(pred, gold):
 
 def compute_reward_value(rewards, strategy):
     """Compute single reward value from list of rewards based on strategy"""
+    rewards = [r if r is not None else np.nan for r in rewards]
     rewards = np.array(rewards)
     rewards[np.isnan(rewards)] = 0.5
     if strategy == "min":
