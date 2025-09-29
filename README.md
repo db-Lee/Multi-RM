@@ -1,7 +1,92 @@
 # Rethinking Reward Models for Multi-Domain Test-Time Scaling
 
+## Synthetic Verfication Rationale Generation for gORM/gPRM
+
+```python
+# TASK_TYPE can be one of:
+# gORM / gPRM
+TASK_TYPE=[choose_one_above]
+
+# generate data
+python -m data_generation.generate_data \
+  --output_dir [OUTPUT_DIR] \
+  --task_type ${TASK_TYPE}
+
+# preprocess data
+python -m data_generation.preprocess_data \
+  --output_dir [OUTPUT_DIR] \
+  --task_type ${TASK_TYPE}
+
+# shorten critique (optional)
+python -m data_generation.shorten_critique \
+  --output_dir [OUTPUT_DIR] \
+  --task_type ${TASK_TYPE}
+```
+
+---
+
+## Training
+
+```python
+# Training dORM / dPRM
+# Use the appropriate config file:
+# ./configs/dORM-14B.yaml
+# ./configs/dPRM-14B.yaml
+
+accelerate launch -m discriminative.train \
+  --config ./configs/dORM-14B.yaml \
+  --output_dir ./[TRAINING_RESULTS]/dORM-14B \
+  --per_device_batch_size 4 \# tuned for H200; adjust for your GPU
+  --category all
+
+# Training gORM / gPRM
+# Use the appropriate config file:
+# ./configs/gORM-14B.yaml
+# ./configs/gPRM-14B.yaml
+
+accelerate launch -m generative.train \
+  --config ./configs/dORM-14B.yaml \
+  --output_dir ./[TRAINING_RESULTS]/dORM-14B \
+  --per_device_batch_size 4 \# tuned for H200; adjust for your GPU
+  --category all
+```
+
+---
+
+## Inference (reward)
+
+```python
+# TEST can be one of:
+# test / test_smollm / test_qwen / test_gemma / test_llama
+
+# Inference for dORM / dPRM
+# Use the appropriate model checkpoint:
+# dongboklee/dORM-14B
+# dongboklee/dPRM-14B
+
+python -m discriminative.get_reward \
+  --data_path dongboklee/[TEST] \
+  --model_id dongboklee/dORM-14B \# or use your own trained models
+  --output_dir ./[REWARD_RESULTS]/dORM-14B-[TEST] \
+  --per_device_batch_size 8 \# tuned for H200; adjust for your GPU
+  --category all
+
+# Inference for gORM / gPRM
+# Use the appropriate model checkpoint:
+# dongboklee/gORM-14B
+# dongboklee/gPRM-14B
+
+python -m generative.get_reward \
+  --data_path dongboklee/[TEST] \
+  --model_id dongboklee/gORM-14B \# or use your own trained models
+  --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
+  --category all
+```
+
+---
+
 ## Evaluation
-- Reward Extraction
+- CSV file extraction
 ```python
 # TEST can be one of:
 # test / test_smollm / test_qwen / test_gemma / test_llama
