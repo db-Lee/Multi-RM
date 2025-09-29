@@ -87,7 +87,6 @@ python -m generative.get_reward \
 ---
 
 ## Evaluation
-- CSV file extraction
 ```python
 # TEST can be one of:
 # test / test_smollm / test_qwen / test_gemma / test_llama
@@ -104,7 +103,7 @@ python -m evaluation.evaluate \
     dongboklee/dPRM-14B-${TEST} \
     dongboklee/gORM-14B-${TEST} \
     dongboklee/gPRM-14B-${TEST} \
-  # Or use local reward dirs instead of HF hubs:
+  # Or use your own reward dirs instead of HF hubs:
   # --reward_dirs \
   #   [LOCAL_DIR]/dORM-14B-${TEST} \
   #   [LOCAL_DIR]/dPRM-14B-${TEST} \
@@ -113,10 +112,7 @@ python -m evaluation.evaluate \
   --model_names dORM-14B dPRM-14B gORM-14B gPRM-14B \
   --strategies last min mean mean \
   --num_runs 100
-```
----
-- Plot
-```python
+
 # CSV_FILE can be one of:
 # [OUTPUT_DIR_FROM_ABOVE]/best_of_n.csv
 # [OUTPUT_DIR_FROM_ABOVE]/weighted_vote.csv
@@ -124,8 +120,7 @@ CSV_FILE=[choose_one_above]
 
 python -m evaluation.plot \
   --input_file ${CSV_FILE} \
-  --output_file [OUTPUT_FILE_PREFIX]
-```
+  --output_file [OUTPUT_FILE_PREFIX] # example -> example.png / example.pdf
 ---
 
 ## Assets
