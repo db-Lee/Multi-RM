@@ -115,8 +115,9 @@ def main():
         
         try:
             dataset = load_dataset(args.data_path, split=category)
+            dataset = [ d for d in dataset ]
         except:
-            with open(os.path.join(args.input_dir, f"{category}_dataset.json"), "r") as f:            
+            with open(os.path.join(args.input_dir, f"{category}.json"), "r") as f:            
                 dataset = json.load(f)        
         
         print(f"Dataset loaded: {len(dataset)} items")
