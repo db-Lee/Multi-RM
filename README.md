@@ -26,3 +26,43 @@
 - [gPRM-14B](https://huggingface.co/datasets/dongboklee/gPRM-14B): gPRM with [14B backbone](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) trained on the multi-domain training dataset ([train_prm](https://huggingface.co/datasets/dongboklee/train_prm)).
 
 ---
+
+### Reward obtained by dORM-14B
+
+- [dORM-14B-test](https://huggingface.co/datasets/dongboklee/dORM-14B-test): reward obtained by [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [dORM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/dORM-14B-test_smollm): reward obtained by [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
+- [dORM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/dORM-14B-test_qwen): reward obtained by [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
+- [dORM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/dORM-14B-test_gemma): reward obtained by [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
+- [dORM-14B-test_llama](https://huggingface.co/datasets/dongboklee/dORM-14B-test_llama): reward obtained by [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) on [test_llama](https://huggingface.co/datasets/dongboklee/test_llama).
+
+---
+
+### Reward obtained by dPRM-14B
+
+- [dPRM-14B-test](https://huggingface.co/datasets/dongboklee/dPRM-14B-test): reward obtained by [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [dPRM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/dPRM-14B-test_smollm): reward obtained by [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
+- [dPRM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/dPRM-14B-test_qwen): reward obtained by [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
+- [dPRM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/dPRM-14B-test_gemma): reward obtained by [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
+- [dPRM-14B-test_llama](https://huggingface.co/datasets/dongboklee/dPRM-14B-test_llama): reward obtained by [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) on [test_llama](https://huggingface.co/datasets/dongboklee/test_llama).
+
+---
+
+### Reward obtained by gORM-14B
+
+- [gORM-14B-test](https://huggingface.co/datasets/dongboklee/gORM-14B-test): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [gORM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/gORM-14B-test_smollm): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
+- [gORM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/gORM-14B-test_qwen): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
+- [gORM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/gORM-14B-test_gemma): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
+- [gORM-14B-test_llama](https://huggingface.co/datasets/dongboklee/gORM-14B-test_llama): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_llama](https://huggingface.co/datasets/dongboklee/test_llama).
+
+---
+
+### Reward obtained by gORM-14B
+
+- [gORM-14B-test](https://huggingface.co/datasets/dongboklee/gORM-14B-test): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [gORM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/gORM-14B-test_smollm): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
+- [gORM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/gORM-14B-test_qwen): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
+- [gORM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/gORM-14B-test_gemma): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
+- [gORM-14B-test_llama](https://huggingface.co/datasets/dongboklee/gORM-14B-test_llama): reward obtained by [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B) on [test_llama](https://huggingface.co/datasets/dongboklee/test_llama).
+
+---
