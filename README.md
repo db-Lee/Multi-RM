@@ -1,4 +1,6 @@
 # Rethinking Reward Models for Multi-Domain Test-Time Scaling
+[![arXiv](https://img.shields.io/badge/arXiv-Read%20paper-b31b1b?style=flat&logo=arXiv&logoColor=white)](https://arxiv.org/abs/ARXIV_ID)
+
 
 ## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
 
