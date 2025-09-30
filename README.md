@@ -106,7 +106,7 @@ python -m discriminative.get_reward \
 
 python -m generative.get_reward \
   --data_path dongboklee/[TEST] \
-  --model_id dongboklee/gORM-14B-merged
+  --model_id dongboklee/gORM-14B-merged \
   --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
   --task_type gORM \
   --category all
@@ -122,7 +122,7 @@ python -m generative.merge_lora \
 
 python -m generative.get_reward \
   --data_path dongboklee/[TEST] \
-  --model_id [LOCAL_DIR]/gORM-14B/tmp
+  --model_id [LOCAL_DIR]/gORM-14B/tmp \
   --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
   --task_type gORM \
   --category all
