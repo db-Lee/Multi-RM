@@ -131,8 +131,8 @@ class RewardModel:
                             lp_dict = {k: float(v.logprob) for k, v in completion.logprobs[-1].items()}
                             
                             # Calculate reward
-                            yes_lp = lp_dict.get(self.yes_id)
-                            no_lp = lp_dict.get(self.no_id)
+                            yes_lp = lp_dict.get(self.yes_id, None)
+                            no_lp = lp_dict.get(self.no_id, None)
                             
                             if yes_lp is not None and no_lp is not None:
                                 exp_yes, exp_no = math.exp(yes_lp), math.exp(no_lp)
