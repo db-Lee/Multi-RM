@@ -7,7 +7,7 @@ This repository contains the codebase for our paper, "**Rethinking Reward Models
 
 ## Abstract
 
-
+[![Abstract overview](abstract.png)](https://arxiv.org/abs/25xx.xxxxx)
 
 ## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
 
