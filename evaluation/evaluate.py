@@ -331,8 +331,8 @@ def main():
     parser.add_argument("--data_path", type=str, required=True)
     parser.add_argument("--output_dir", type=str, required=True)
     parser.add_argument("--reward_dirs", type=str, nargs='+', 
-                        default=["dongboklee/dORM-14B-rewards", "dongboklee/dPRM-14B-rewards", 
-                                "gORM-14B-rewards", "gPRM-14B-rewards"])
+                        default=["dongboklee/dORM-14B-test", "dongboklee/dPRM-14B-test", 
+                                "dongboklee/gORM-14B-test", "dongboklee/gPRM-14B-test"])
     parser.add_argument("--model_names", type=str, nargs='+', 
                        default=["dORM", "dPRM", "gORM", "gPRM"])
     parser.add_argument("--strategies", type=str, nargs='+',
