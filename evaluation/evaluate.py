@@ -46,25 +46,23 @@ def load_and_create_unified_dataset(reward_dirs, model_names, strategies, data_p
         try:
             from datasets import load_dataset
             original_dataset = load_dataset(data_path, split=category)
-            original_data = [d for d in original_dataset]
         except:
             with open(os.path.join(data_path, f"{category}.json"), "r") as f:
-                original_data = json.load(f)
+                original_dataset = json.load(f)
         
         # Build lookup table: (q_id, cot_id) -> index in cot_ids list
         original_lookup = {}
-        for orig_entry in original_data:
+        for orig_entry in original_dataset:
             q_id = orig_entry['q_id']
             for idx, cot_id in enumerate(orig_entry['cot_ids']):
                 original_lookup[(q_id, cot_id)] = idx
         
         # Initialize unified data from original dataset
-        for orig_entry in original_data:
+        for orig_entry in original_dataset:
             q_id = orig_entry['q_id']
             if q_id not in unified_data[category]:
                 unified_data[category][q_id] = {
                     'q_id': q_id,
-                    'category': category,
                     'cot_ids': orig_entry['cot_ids'],
                     'gold_answer': orig_entry['answer'],
                     'parsed_answers': orig_entry['parsed_answers']
@@ -75,10 +73,8 @@ def load_and_create_unified_dataset(reward_dirs, model_names, strategies, data_p
             try:
                 from datasets import load_dataset
                 eval_dataset = load_dataset(reward_path, split=category)
-                eval_dataset = [d for d in eval_dataset]
             except:
-                # with open(os.path.join(reward_path, f"{category}_reward.json"), "r") as f:
-                with open(os.path.join(reward_path, f"eval_{category}_dataset.json"), "r") as f:
+                with open(os.path.join(reward_path, f"{category}_reward.json"), "r") as f:
                     eval_dataset = json.load(f)
             
             # Process rewards using lookup table
@@ -147,11 +143,8 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
         if ans and str(ans).strip():
             answer_counts[str(ans).strip().lower()] += 1
     
-    if answer_counts:
-        majority_answer = max(answer_counts.items(), key=lambda x: x[1])[0]
-        results['majority_vote'] = 1 if exact_match(majority_answer, gold_answer) else 0
-    else:
-        results['majority_vote'] = 0
+    majority_answer = max(answer_counts.items(), key=lambda x: x[1])[0]
+    results['majority_vote'] = 1 if exact_match(majority_answer, gold_answer) else 0
     
     # Evaluate each model's reward-dependent methods
     for model_name in model_names:
@@ -172,11 +165,8 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
             if ans and str(ans).strip():
                 vote_weights[str(ans).strip().lower()] += r
         
-        if vote_weights:
-            weighted_pred = max(vote_weights.items(), key=lambda x: x[1])[0]
-            weighted_vote_result = 1 if exact_match(weighted_pred, gold_answer) else 0
-        else:
-            weighted_vote_result = 0
+        weighted_pred = max(vote_weights.items(), key=lambda x: x[1])[0]
+        weighted_vote_result = 1 if exact_match(weighted_pred, gold_answer) else 0
         
         results['model_results'][model_name] = {
             'best_of_n': best_of_n_result,
@@ -250,23 +240,20 @@ def evaluate_all(unified_data, model_names, N_max_values, num_runs, seed):
             for category in categories:
                 # MV
                 scores = run_results['majority_vote'][category]
-                if scores:
-                    accuracy = (sum(scores) / len(scores)) * 100
-                    all_results['majority_vote'][N_max][category].append(accuracy)
-                
-                # Oracle
-                scores = run_results['oracle'][category]
-                if scores:
-                    accuracy = (sum(scores) / len(scores)) * 100
-                    all_results['oracle'][N_max][category].append(accuracy)
+                accuracy = (sum(scores) / len(scores)) * 100
+                all_results['majority_vote'][N_max][category].append(accuracy)
                 
                 # Each model
                 for model_name in model_names:
                     for method in ['best_of_n', 'weighted_vote']:
                         scores = run_results[model_name][category][method]
-                        if scores:
-                            accuracy = (sum(scores) / len(scores)) * 100
-                            all_results[model_name][N_max][category][method].append(accuracy)
+                        accuracy = (sum(scores) / len(scores)) * 100
+                        all_results[model_name][N_max][category][method].append(accuracy)
+                
+                # Oracle
+                scores = run_results['oracle'][category]
+                accuracy = (sum(scores) / len(scores)) * 100
+                all_results['oracle'][N_max][category].append(accuracy)
     
     return all_results
 
@@ -294,58 +281,30 @@ def save_results_csv(all_results, model_names, categories, N_max_values, output_
             mv_stds = []
             
             for cat in categories:
-                if cat in all_results['majority_vote'][N_max]:
-                    scores = all_results['majority_vote'][N_max][cat]
-                    if scores:
-                        mv_overall_runs.extend(scores)
-                        mv_means.append(np.mean(scores))
-                        mv_stds.append(np.std(scores))
-                    else:
-                        mv_means.append(np.nan)
-                        mv_stds.append(np.nan)
-                else:
-                    mv_means.append(np.nan)
-                    mv_stds.append(np.nan)
+                scores = all_results['majority_vote'][N_max][cat]
+                mv_overall_runs.extend(scores)
+                mv_means.append(np.mean(scores))
+                mv_stds.append(np.std(scores))
             
-            # Add overall mean, then all category means, then overall std, then all category stds
-            row.append(np.mean(mv_overall_runs) if mv_overall_runs else np.nan)
-            row.extend(mv_means)
-            row.append(np.std(mv_overall_runs) if mv_overall_runs else np.nan)
-            row.extend(mv_stds)
+            row.append(np.mean(mv_overall_runs)); row.extend(mv_means)
+            row.append(np.std(mv_overall_runs)); row.extend(mv_stds)
             writer.writerow(row)
             
             # Each model's results
             for model_name in model_names:
-                row = [N_max, model_name]
-                
-                if model_name not in all_results or not all_results[model_name][N_max]:
-                    row.extend([np.nan] + [np.nan] * len(categories) + [np.nan] + [np.nan] * len(categories))
-                    writer.writerow(row)
-                    continue
-                
+                row = [N_max, model_name]                
                 overall_runs = []
                 means = []
                 stds = []
                 
                 for cat in categories:
-                    if cat in all_results[model_name][N_max]:
-                        scores = all_results[model_name][N_max][cat][method]
-                        if scores:
-                            overall_runs.extend(scores)
-                            means.append(np.mean(scores))
-                            stds.append(np.std(scores))
-                        else:
-                            means.append(np.nan)
-                            stds.append(np.nan)
-                    else:
-                        means.append(np.nan)
-                        stds.append(np.nan)
+                    scores = all_results[model_name][N_max][cat][method]
+                    overall_runs.extend(scores)
+                    means.append(np.mean(scores))
+                    stds.append(np.std(scores))
                 
-                # Add overall mean, then all category means, then overall std, then all category stds
-                row.append(np.mean(overall_runs) if overall_runs else np.nan)
-                row.extend(means)
-                row.append(np.std(overall_runs) if overall_runs else np.nan)
-                row.extend(stds)
+                row.append(np.mean(overall_runs)); row.extend(means)
+                row.append(np.std(overall_runs)); row.extend(stds)
                 writer.writerow(row)
             
             # Oracle
@@ -355,24 +314,13 @@ def save_results_csv(all_results, model_names, categories, N_max_values, output_
             oracle_stds = []
             
             for cat in categories:
-                if cat in all_results['oracle'][N_max]:
-                    scores = all_results['oracle'][N_max][cat]
-                    if scores:
-                        oracle_overall_runs.extend(scores)
-                        oracle_means.append(np.mean(scores))
-                        oracle_stds.append(np.std(scores))
-                    else:
-                        oracle_means.append(np.nan)
-                        oracle_stds.append(np.nan)
-                else:
-                    oracle_means.append(np.nan)
-                    oracle_stds.append(np.nan)
+                scores = all_results['oracle'][N_max][cat]
+                oracle_overall_runs.extend(scores)
+                oracle_means.append(np.mean(scores))
+                oracle_stds.append(np.std(scores))
             
-            # Add overall mean, then all category means, then overall std, then all category stds
-            row.append(np.mean(oracle_overall_runs) if oracle_overall_runs else np.nan)
-            row.extend(oracle_means)
-            row.append(np.std(oracle_overall_runs) if oracle_overall_runs else np.nan)
-            row.extend(oracle_stds)
+            row.append(np.mean(oracle_overall_runs)); row.extend(oracle_means)
+            row.append(np.std(oracle_overall_runs)); row.extend(oracle_stds)
             writer.writerow(row)
     
     print(f"Saved {method_display} results: {output_file}")
@@ -393,14 +341,12 @@ def main():
     parser.add_argument("--num_runs", type=int, default=100)
     args = parser.parse_args()
 
-    # Validation
     if len(args.reward_dirs) != len(args.model_names):
         raise ValueError("Number of reward_dirs must match number of model_names")
     
     if len(args.reward_dirs) != len(args.strategies):
         raise ValueError("Number of reward_dirs must match number of strategies")
 
-    # Fixed N_max values
     N_max_values = [1, 2, 4, 8, 16]
     
     categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
@@ -412,10 +358,8 @@ def main():
     print(f"N_max values: {N_max_values}")
     print(f"Settings: num_runs={args.num_runs}, seed={args.seed}")
     
-    # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)
     
-    # Step 1: Load and create unified dataset
     unified_data = load_and_create_unified_dataset(
         args.reward_dirs, args.model_names, args.strategies, 
         args.data_path, categories
@@ -424,13 +368,11 @@ def main():
     total_questions = sum(len(entries) for entries in unified_data.values())
     print(f"\nLoaded {total_questions} questions across {len(unified_data)} categories")
     
-    # Step 2: Evaluate all in one pass
     all_results = evaluate_all(
         unified_data, args.model_names, N_max_values, 
         args.num_runs, args.seed
     )
     
-    # Step 3: Save results
     save_results_csv(all_results, args.model_names, categories, N_max_values, args.output_dir, method='best_of_n')
     save_results_csv(all_results, args.model_names, categories, N_max_values, args.output_dir, method='weighted_vote')
     

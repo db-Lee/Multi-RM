@@ -173,10 +173,9 @@ def save_plots(df, methods_to_plot, method_labels, output_filename, y_margin_bot
                        label='Pass@N',
                        alpha=0.9)
         
-        # Customize subplot
-        ax.set_title(display_name, fontsize=12, pad=3)
+        ax.set_title(display_name, fontsize=12, pad=3, 
+            fontweight='bold' if display_name == "Overall" else None)
         
-        # Set x-axis with log scale base 2
         ax.set_xscale('log', base=2)
         ax.set_xticks(N_values)
         if row == num_rows - 1:  # Bottom row
@@ -184,46 +183,39 @@ def save_plots(df, methods_to_plot, method_labels, output_filename, y_margin_bot
         else:
             ax.set_xticklabels([])
         
-        # Set y-axis with adjustable range
         all_values = []
-        
-        # Collect all method values
         for method in methods_to_plot:
             for n in N_values:
                 row_data = df[(df['N'] == n) & (df['Method'] == method)]
                 if not row_data.empty and not np.isnan(row_data[domain].values[0]):
                     all_values.append(row_data[domain].values[0])
         
-        # Add Pass@N values only if plot_oracle is True
         if plot_oracle:
             for n in N_values:
                 row_data = df[(df['N'] == n) & (df['Method'].str.startswith('Pass@'))]
                 if not row_data.empty and not np.isnan(row_data[domain].values[0]):
                     all_values.append(row_data[domain].values[0])
         
-        if all_values:
-            y_min = min(all_values) * y_margin_bottom
-            y_max = max(all_values) * y_margin_top
-            ax.set_ylim(y_min, y_max)
+        y_min = min(all_values) * y_margin_bottom
+        y_max = max(all_values) * y_margin_top
+        ax.set_ylim(y_min, y_max)
         
-        # Force y-axis to show only integer ticks
         ax.yaxis.set_major_locator(MaxNLocator(integer=True, nbins=4))
         
-        # Add grid
         ax.grid(axis='y', alpha=0.3, linestyle='-', linewidth=0.5)
         ax.set_axisbelow(True)
         
-        # Customize tick labels
+        if display_name == "Overall":
+            for spine in ax.spines.values():
+                spine.set_linewidth(2)
+        
         ax.tick_params(axis='both', labelsize=10)
     
-    # Add overall labels
     fig.supxlabel('Number of CoTs (N)', fontsize=12, y=0.05)
-    fig.supylabel('TTS score (%)', fontsize=12, x=0.02)
+    fig.supylabel('Task accuracy (%)', fontsize=12, x=0.02)
     
-    # Tight layout
     plt.tight_layout(pad=0.9, h_pad=0.5, w_pad=0.5)
     
-    # Save as both PNG and PDF
     pdf_filename = f'{output_filename}.pdf'
     png_filename = f'{output_filename}.png'
     
@@ -239,11 +231,11 @@ def save_plots(df, methods_to_plot, method_labels, output_filename, y_margin_bot
 
 def main():
     parser = argparse.ArgumentParser(description='Generate subplot visualizations from CSV data')
-    parser.add_argument('--input_file', type=str, required=True, help='Input CSV file path')
-    parser.add_argument('--output_file', type=str, required=True, help='Output file prefix')
-    parser.add_argument('--plot_oracle', action='store_true', help='If set, plot Pass@N oracle baseline')
-    parser.add_argument('--y_margin_bottom', type=float, default=0.97, help='Bottom margin multiplier for y-axis')
-    parser.add_argument('--y_margin_top', type=float, default=1.03, help='Top margin multiplier for y-axis')
+    parser.add_argument('--input_file', type=str, required=True)
+    parser.add_argument('--output_file', type=str, required=True)
+    parser.add_argument('--plot_oracle', action='store_true')
+    parser.add_argument('--y_margin_bottom', type=float, default=0.97)
+    parser.add_argument('--y_margin_top', type=float, default=1.03)
     args = parser.parse_args()
     
     # Read the CSV file
