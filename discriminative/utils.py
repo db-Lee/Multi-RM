@@ -1,5 +1,7 @@
 import torch.nn.functional as F
 from transformers import DataCollatorForTokenClassification
+from datasets import Dataset
+
 from discriminative.data import TokenizedDataset
 
 def get_dataset(configs, tokenizer):
@@ -52,12 +54,16 @@ def split_dataset_for_gpus(dataset, num_gpus):
     batches = []
     for i in range(num_gpus):
         start_idx = i * batch_size
-        if i == num_gpus - 1:
+        if i == num_gpus - 1:  # Last GPU gets remaining items
             end_idx = len(dataset)
         else:
             end_idx = (i + 1) * batch_size
         
-        batch_data = dataset[start_idx:end_idx]
+        if isinstance(dataset, Dataset):
+            batch_data = dataset.select(range(start_idx, end_idx))
+        else:
+            batch_data = dataset[start_idx:end_idx]
+        
         batches.append(batch_data)
     
     return batches

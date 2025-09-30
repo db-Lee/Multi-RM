@@ -115,53 +115,44 @@ def main():
         
         try:
             dataset = load_dataset(args.data_path, split=category)
-            dataset = [ d for d in dataset ]
         except:
             with open(os.path.join(args.input_dir, f"{category}.json"), "r") as f:            
                 dataset = json.load(f)        
         
         print(f"Dataset loaded: {len(dataset)} items")
         
-        if num_gpus > 1:
-            print(f"Using {num_gpus} processes for processing")
-            dataset_batches = split_dataset_for_gpus(dataset, num_gpus)
-            
-            processes, temp_file_list = [], []
-            for gpu_id in range(num_gpus):
-                if len(dataset_batches[gpu_id]) > 0:
-                    temp_file = os.path.join(args.output_dir, f"{category}_temp_file_{gpu_id}.json")
-                    temp_file_list.append(temp_file)
-                    
-                    p = mp.Process(
-                        target=process_gpu_batch,
-                        args=(gpu_id, dataset_batches[gpu_id], args, temp_file)
-                    )
-                    processes.append(p)
-                    p.start()
-                    print(f"Started process on GPU {gpu_id}")
-            
-            for p in processes:
-                p.join()
-            
-            output_results = []
-            for temp_file in temp_file_list:
-                with open(temp_file, "r") as f:
-                    output_results.extend(json.load(f))
-                os.remove(temp_file)        
+        print(f"Using {num_gpus} processes for processing")
+        dataset_batches = split_dataset_for_gpus(dataset, num_gpus)
+        
+        processes, temp_file_list = [], []
+        for gpu_id in range(num_gpus):
+            if len(dataset_batches[gpu_id]) > 0:
+                temp_file = os.path.join(args.output_dir, f"{category}_temp_file_{gpu_id}.json")
+                temp_file_list.append(temp_file)
                 
-        else:
-            print("Using single process processing")
-            output_results = process_gpu_batch(0, dataset, args, None)
+                p = mp.Process(
+                    target=process_gpu_batch,
+                    args=(gpu_id, dataset_batches[gpu_id], args, temp_file)
+                )
+                processes.append(p)
+                p.start()
+                print(f"Started process on GPU {gpu_id}")
+        
+        for p in processes:
+            p.join()
+        
+        output_results = []
+        for temp_file in temp_file_list:
+            with open(temp_file, "r") as f:
+                output_results.extend(json.load(f))
+            os.remove(temp_file)
 
         output_file = os.path.join(args.output_dir, f"{category}_reward.json")
         with open(output_file, "w") as f:
             json.dump(output_results, f, indent=4)
             
         print(f"Results for {category} saved to {output_file}")
-        if num_gpus > 1:
-            print(f"Processed {len(output_results)} items using {num_gpus} processes with 1 GPU each")
-        else:
-            print(f"Processed {len(output_results)} items using single process with 1 GPU")
-
+        print(f"Processed {len(output_results)} items using {num_gpus} processes with 1 GPU each")
+        
 if __name__ == '__main__':
     main()

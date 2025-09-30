@@ -1,5 +1,6 @@
 import re
 import numpy as np
+from datasets import Dataset
 
 def parse_orm_label(text):
     pattern = r'Verification: Is the answer correct \(Yes/No\)\?\s*(Yes|No)'
@@ -58,7 +59,11 @@ def split_dataset_for_gpus(dataset, num_gpus):
         else:
             end_idx = (i + 1) * batch_size
         
-        batch_data = dataset[start_idx:end_idx]
+        if isinstance(dataset, Dataset):
+            batch_data = dataset.select(range(start_idx, end_idx))
+        else:
+            batch_data = dataset[start_idx:end_idx]
+        
         batches.append(batch_data)
     
     return batches
