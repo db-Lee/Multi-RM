@@ -100,7 +100,7 @@ python -m generative.get_reward \
 
 # Merge LoRA for vLLM inference
 python -m generative.merge_lora \
-  --input_dir [LOCAL_DIR]/gORM-14B
+  --input_dir [LOCAL_DIR]/gORM-14B # saved to [LOCAL_DIR]/gORM-14B/tmp
 
 python -m generative.get_reward \
   --data_path dongboklee/[TEST] \
