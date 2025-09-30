@@ -176,7 +176,9 @@ Please find the assets of this repo below, including training and test datasets,
 ### Model Checkpoints
 
 - [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B): dORM with [14B backbone](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) trained on the multi-domain training dataset ([train](https://huggingface.co/datasets/dongboklee/train)).
+- [dORM-14B-merged](https://huggingface.co/datasets/dongboklee/dORM-14B-merged): LoRA-merged version of [dORM-14B](https://huggingface.co/datasets/dongboklee/dORM-14B) for vLLM inference.
 - [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B): dPRM with [14B backbone](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) trained on the multi-domain training dataset ([train](https://huggingface.co/datasets/dongboklee/train)).
+- [dPRM-14B-merged](https://huggingface.co/datasets/dongboklee/dPRM-14B-merged): LoRA-merged version of [dPRM-14B](https://huggingface.co/datasets/dongboklee/dPRM-14B) for vLLM inference.
 - [gORM-14B](https://huggingface.co/datasets/dongboklee/gORM-14B): gORM with [14B backbone](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) trained on the multi-domain training dataset ([train_orm](https://huggingface.co/datasets/dongboklee/train_orm)).
 - [gPRM-14B](https://huggingface.co/datasets/dongboklee/gPRM-14B): gPRM with [14B backbone](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) trained on the multi-domain training dataset ([train_prm](https://huggingface.co/datasets/dongboklee/train_prm)).
 
