@@ -1,0 +1,10 @@
+torch
+transformers
+datasets
+peft
+accelerate
+trl
+wandb
+vllm
+liger-kernel
+easydict
