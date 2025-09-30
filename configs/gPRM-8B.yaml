@@ -1,15 +1,15 @@
 model_id: 'deepseek-ai/DeepSeek-R1-Distill-Llama-8B'
-task_type: "dORM"
+task_type: "gPRM"
 
 # ─── Data ────────────────────────────────────────────────────
-train_data_path: 'dongboklee/train'
+train_data_path: 'dongboklee/train_gPRM'
 eval_data_path: null
-max_length: 650
+max_length: null
 
 # ─── Hugging Face Trainer arguments ──────────────────────────
 lora_config:
-  r: 16
-  lora_alpha: 32
+  r: 32
+  lora_alpha: 16
   lora_dropout: 0.1
   target_modules: 'all-linear'
   task_type: 'CAUSAL_LM'
@@ -21,7 +21,7 @@ training_args:
   learning_rate: 1.0e-4
   num_train_epochs: 1
   effective_batch_size: 16
-  lr_scheduler_type: cosine
+  lr_scheduler_type: linear
   warmup_ratio: 0.1
   weight_decay: 0.01
   bf16: true
@@ -41,6 +41,6 @@ training_args:
   data_seed: 42
 
   # ─ Misc ─
-  use_liger_kernel: true
+  use_liger_kernel: false
   gradient_checkpointing: true
   ddp_find_unused_parameters: false

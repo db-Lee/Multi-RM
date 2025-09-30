@@ -1,5 +1,5 @@
 model_id: 'deepseek-ai/DeepSeek-R1-Distill-Llama-8B'
-task_type: "dORM"
+task_type: "dPRM"
 
 # ─── Data ────────────────────────────────────────────────────
 train_data_path: 'dongboklee/train'
