@@ -32,6 +32,8 @@ python -m data_generation.shorten_critique \
 # Use the appropriate config file:
 # ./configs/dORM-14B.yaml
 # ./configs/dPRM-14B.yaml
+# ./configs/dORM-8B.yaml
+# ./configs/dPRM-8B.yaml
 
 accelerate launch -m discriminative.train \
   --config ./configs/dORM-14B.yaml \
@@ -43,6 +45,8 @@ accelerate launch -m discriminative.train \
 # Use the appropriate config file:
 # ./configs/gORM-14B.yaml
 # ./configs/gPRM-14B.yaml
+# ./configs/gORM-8B.yaml
+# ./configs/gPRM-8B.yaml
 
 accelerate launch -m generative.train \
   --config ./configs/dORM-14B.yaml \
