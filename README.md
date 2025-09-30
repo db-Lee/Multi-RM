@@ -73,12 +73,28 @@ python -m discriminative.get_reward \
 
 # Inference for gORM / gPRM
 # Use the appropriate model checkpoint:
-# dongboklee/gORM-14B, TASK_TYPE=gORM
-# dongboklee/gPRM-14B, TASK_TYPE=gPRM
+# dongboklee/gORM-14B-merged, TASK_TYPE=gORM
+# dongboklee/gPRM-14B-merged, TASK_TYPE=gPRM
 
 python -m generative.get_reward \
   --data_path dongboklee/[TEST] \
-  --model_id dongboklee/gORM-14B \# or use your own trained models
+  --model_id dongboklee/gORM-14B-merged
+  --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
+  --task_type gORM \
+  --category all
+
+# Inference for gORM / gPRM (for your own trained models)
+# Use the appropriate model checkpoint:
+# [LOCAL_DIR]/gORM-14B, TASK_TYPE=gORM
+# [LOCAL_DIR]/gPRM-14B, TASK_TYPE=gPRM
+
+# Merge LoRA for vLLM inference
+python -m generative.merge_lora \
+  --input_dir [LOCAL_DIR]/gORM-14B
+
+python -m generative.get_reward \
+  --data_path dongboklee/[TEST] \
+  --model_id [LOCAL_DIR]/gORM-14B/tmp
   --output_dir ./[REWARD_RESULTS]/gORM-14B-[TEST] \
   --task_type gORM \
   --category all
