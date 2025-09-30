@@ -9,6 +9,16 @@ This repository contains the codebase for our paper, "**Rethinking Reward Models
 
 [![Abstract overview](abstract.png)](https://arxiv.org/abs/25xx.xxxxx)
 
+---
+
+## Quick Start
+```
+conda create -n multi-rm python=3.10.14
+conda activate multi-rm
+pip install -r requirements.txt
+pip install flash-attn --no-build-isolation
+```
+
 ## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
 
 ```python
