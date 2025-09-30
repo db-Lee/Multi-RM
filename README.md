@@ -215,7 +215,7 @@ Please find the assets of this repo below, including training and test datasets,
 ### Reward obtained by gORM-14B/-8B
 
 - [gORM-14B-test](https://huggingface.co/datasets/dongboklee/gORM-14B-test): reward obtained by [gORM-14B](https://huggingface.co/dongboklee/gORM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
-- [gORM-8B-test](https://huggingface.co/datasets/dongboklee/gORM-8B-test): reward obtained by [gORM-8B](https://huggingface.co/gORM-8B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [gORM-8B-test](https://huggingface.co/datasets/dongboklee/gORM-8B-test): reward obtained by [gORM-8B](https://huggingface.co/dongboklee/gORM-8B) on [test](https://huggingface.co/datasets/dongboklee/test).
 - [gORM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/gORM-14B-test_smollm): reward obtained by [gORM-14B](https://huggingface.co/dongboklee/gORM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
 - [gORM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/gORM-14B-test_qwen): reward obtained by [gORM-14B](https://huggingface.co/dongboklee/gORM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
 - [gORM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/gORM-14B-test_gemma): reward obtained by [gORM-14B](https://huggingface.co/dongboklee/gORM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
@@ -226,7 +226,7 @@ Please find the assets of this repo below, including training and test datasets,
 ### Reward obtained by gPRM-14B/-8B
 
 - [gPRM-14B-test](https://huggingface.co/datasets/dongboklee/gPRM-14B-test): reward obtained by [gPRM-14B](https://huggingface.co/dongboklee/gPRM-14B) on [test](https://huggingface.co/datasets/dongboklee/test).
-- [gPRM-8B-test](https://huggingface.co/datasets/dongboklee/gPRM-8B-test): reward obtained by [gPRM-8B](https://huggingface.co/gPRM-8B) on [test](https://huggingface.co/datasets/dongboklee/test).
+- [gPRM-8B-test](https://huggingface.co/datasets/dongboklee/gPRM-8B-test): reward obtained by [gPRM-8B](https://huggingface.co/dongboklee/gPRM-8B) on [test](https://huggingface.co/datasets/dongboklee/test).
 - [gPRM-14B-test_smollm](https://huggingface.co/datasets/dongboklee/gPRM-14B-test_smollm): reward obtained by [gPRM-14B](https://huggingface.co/dongboklee/gPRM-14B) on [test_smollm](https://huggingface.co/datasets/dongboklee/test_smollm).
 - [gPRM-14B-test_qwen](https://huggingface.co/datasets/dongboklee/gPRM-14B-test_qwen): reward obtained by [gPRM-14B](https://huggingface.co/dongboklee/gPRM-14B) on [test_qwen](https://huggingface.co/datasets/dongboklee/test_qwen).
 - [gPRM-14B-test_gemma](https://huggingface.co/datasets/dongboklee/gPRM-14B-test_gemma): reward obtained by [gPRM-14B](https://huggingface.co/dongboklee/gPRM-14B) on [test_gemma](https://huggingface.co/datasets/dongboklee/test_gemma).
