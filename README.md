@@ -151,7 +151,7 @@ python -m evaluation.plot \
 
 ## Assets
 
-Please find the assets of this repo below, including training and test datasets, model checkpoints, and rewards obtained by the four variants.
+Please find the assets of this repo below, including training and test datasets, model checkpoints, and rewards obtained by the four reward model variants.
 
 ---
 
