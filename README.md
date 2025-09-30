@@ -1,6 +1,13 @@
 # Rethinking Reward Models for Multi-Domain Test-Time Scaling
 [![arXiv](https://img.shields.io/badge/arXiv-Read%20paper-b31b1b?style=flat&logo=arXiv&logoColor=white)](https://arxiv.org/abs/ARXIV_ID)
 
+This repository contains the codebase for our paper, "**Rethinking Reward Models for Multi-Domain Test-Time Scaling**."
+
+---
+
+## Abstract
+
+
 
 ## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
 
@@ -239,3 +246,13 @@ Please find the assets of this repo below, including training and test datasets,
 - [gPRM-14B-test_llama](https://huggingface.co/datasets/dongboklee/gPRM-14B-test_llama): reward obtained by [gPRM-14B-merged](https://huggingface.co/dongboklee/gPRM-14B-merged) on [test_llama](https://huggingface.co/datasets/dongboklee/test_llama).
 
 ---
+
+### Citation
+```
+@article{multi-rm,
+  title={Rethinking Reward Models for Multi-Domain Test-Time Scaling},
+  author={Khalifa, Muhammad and Agarwal, Rishabh and Logeswaran, Lajanugen and Kim, Jaekyeom and Peng, Hao and Lee, Moontae and Lee, Honglak and Wang, Lu},
+  journal={arXiv preprint arXiv:2504.16828},
+  year={2025}
+}
+```
