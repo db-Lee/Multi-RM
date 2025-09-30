@@ -8,3 +8,4 @@ wandb
 vllm
 liger-kernel
 easydict
+matplotlib

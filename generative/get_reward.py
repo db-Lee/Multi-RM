@@ -58,7 +58,7 @@ def worker_process(process_id, gpu_ids, task_queue, result_queue, args):
         top_p=args.top_p,
         top_k=args.top_k,
         min_p=args.min_p,
-        logprobs=args.log_probs,
+        logprobs=args.logprobs,
         batch_size=args.batch_size
     )
     
