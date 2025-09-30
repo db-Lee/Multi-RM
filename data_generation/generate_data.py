@@ -136,7 +136,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate step-by-step verification critique data")
     
     # I/O arguments
-    parser.add_argument("--input_dir", type=str, default="dongboklee/train")
+    parser.add_argument("--data_path", type=str, default="dongboklee/train")
     parser.add_argument("--output_dir", type=str, required=True)
     parser.add_argument("--category", type=str, default="all", choices={
         'law', 'psychology', 'chemistry', 'biology', 'physics', 
@@ -209,7 +209,7 @@ def main():
         try:
             dataset = load_dataset(args.data_path, split=category)
         except:
-            with open(os.path.join(args.input_dir, f"{category}.json"), "r") as f:
+            with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:
                 dataset = json.load(f)
                 
         print(f"  Loaded {len(dataset)} items")
