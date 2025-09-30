@@ -144,7 +144,7 @@ CSV_FILE=[choose_one_above]
 
 python -m evaluation.plot \
   --input_file ${CSV_FILE} \
-  --output_file [OUTPUT_FILE_PREFIX] # example -> example.png / example.pdf
+  --output_file [OUTPUT_FILE_PREFIX] # example -> example_legend.png / example_legend.pdf / example.png / example.pdf
 ```
 
 ---
