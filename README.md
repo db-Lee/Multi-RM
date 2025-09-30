@@ -70,8 +70,8 @@ accelerate launch -m discriminative.train \
 # ./configs/gPRM-8B.yaml
 
 accelerate launch -m generative.train \
-  --config ./configs/dORM-14B.yaml \
-  --output_dir ./[TRAINING_RESULTS]/dORM-14B \
+  --config ./configs/gORM-14B.yaml \
+  --output_dir ./[TRAINING_RESULTS]/gORM-14B \
   --per_device_batch_size 4 \# tuned for H200; adjust for your GPU
   --category all
 ```
