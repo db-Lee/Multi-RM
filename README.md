@@ -250,9 +250,11 @@ Please find the assets of this repo below, including training and test datasets,
 ### Citation
 ```
 @article{multi-rm,
-  title={Rethinking Reward Models for Multi-Domain Test-Time Scaling},
-  author={Khalifa, Muhammad and Agarwal, Rishabh and Logeswaran, Lajanugen and Kim, Jaekyeom and Peng, Hao and Lee, Moontae and Lee, Honglak and Wang, Lu},
-  journal={arXiv preprint arXiv:2504.16828},
-  year={2025}
+  title   = {Rethinking Reward Models for Multi-Domain Test-Time Scaling},
+  author  = {Lee, Dong Bok and Lee, Seanie and Park, Sangwoo and Kang, Minki and Baek, Jinheon and Kim, Dongki and Wagner, Dominik and Jin, Jiongdao and Lee, Heejun and Bocklet, Tobias and Wang, Jinyu and Fu, Jingjing and Hwang, Sung Ju and Bian, Jiang and Song, Lei},
+  journal = {arXiv preprint arXiv:25xx.xxxxx},
+  year    = {2025},
+  note    = {Equal contribution. Work done during an internship at Microsoft Research Asia.}
 }
+
 ```
