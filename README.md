@@ -7,9 +7,11 @@ This repository contains the codebase for our paper, "**Rethinking Reward Models
 
 ## Abstract
 
-<a href="https://arxiv.org/abs/25xx.xxxxx">
-  <img src="abstract.png" alt="Abstract overview" width="600">
-</a>
+<p align="center">
+  <a href="https://arxiv.org/abs/25xx.xxxxx">
+    <img src="abstract.png" alt="Abstract overview" width="720">
+  </a>
+</p>
 
 ---
 
