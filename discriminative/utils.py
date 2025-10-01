@@ -48,7 +48,7 @@ def get_compute_loss_func(tokenizer):
         return loss / num_items_in_batch    
     return compute_loss_func
 
-def split_dataset_for_gpus(dataset, num_gpus):
+def split_dataset_for_gpus(dataset: Dataset, num_gpus: int):
     batch_size = len(dataset) // num_gpus
     
     batches = []
@@ -59,11 +59,7 @@ def split_dataset_for_gpus(dataset, num_gpus):
         else:
             end_idx = (i + 1) * batch_size
         
-        if isinstance(dataset, Dataset):
-            batch_data = dataset.select(range(start_idx, end_idx))
-        else:
-            batch_data = dataset[start_idx:end_idx]
-        
+        batch_data = dataset.select(range(start_idx, end_idx))        
         batches.append(batch_data)
     
     return batches

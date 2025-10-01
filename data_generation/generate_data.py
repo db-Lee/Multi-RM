@@ -8,7 +8,7 @@ import argparse
 import torch
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 
 from data_generation.utils import split_dataset_for_gpus
 from generative.prompt_formats import ORM_PROMPT_FORMAT, DATA_PRM_PROMPT_FORMAT
@@ -53,7 +53,7 @@ class ModelWorker:
         # Set prompt format
         self.prompt_format = ORM_PROMPT_FORMAT if args.task_type == "gORM" else DATA_PRM_PROMPT_FORMAT
     
-    def process_batch(self, category, dataset):
+    def process_batch(self, category: str, dataset: Dataset):
         # Prepare all prompts for the batch
         formatted_prompts = []
         for data in dataset:
@@ -178,7 +178,7 @@ def main():
     print(f"Will process categories: {categories}")
     
     # Create cache if not skipping
-    if not args.skip_cache:
+    if not args.skip_cache and num_processes > 1:
         create_cache(args)
         time.sleep(10)
     else:
@@ -210,7 +210,7 @@ def main():
             dataset = load_dataset(args.data_path, split=category)
         except:
             with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:
-                dataset = json.load(f)
+                dataset = Dataset.from_list(json.load(f))
                 
         print(f"  Loaded {len(dataset)} items")
         

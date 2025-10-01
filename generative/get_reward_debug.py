@@ -2,12 +2,14 @@ import os
 import gc
 import json
 import time
+import numpy as np
+from tqdm import tqdm
 import argparse
 import multiprocessing as mp
 
 import torch
 from vllm import LLM
-from datasets import load_dataset, Dataset
+from datasets import load_dataset
 
 from generative.utils import split_dataset_for_gpus
 from generative.reward_model import RewardModel
@@ -117,70 +119,41 @@ def main():
         categories = [args.category]
     
     print(f"Will process categories: {categories}")
-    # Create cache if not skipping
-    if not args.skip_cache and num_processes > 1:
-        create_cache(args)
-        time.sleep(10)
-    else:
-        print("Skipping cache creation (assuming cache already exists)\n")
         
     print(f"Using {num_processes} processes for parallel processing")
-    mp.set_start_method('spawn', force=True)
-
-    manager = mp.Manager()
-    task_queue = manager.Queue()
-    result_queue = manager.Queue()
-
-    # Start worker processes
-    processes = []
-    for i in range(num_processes):
-        gpu_ids = list(range(i * args.tensor_parallel_size, 
-                            (i + 1) * args.tensor_parallel_size))
-        p = mp.Process(target=worker_process, 
-                        args=(i, gpu_ids, task_queue, result_queue, args))
-        p.start()
-        processes.append(p)
-        print(f"Started worker process {i} with GPUs {gpu_ids}")
     
-    time.sleep(10)
-
+    worker = RewardModel(
+        process_id=0, 
+        gpu_ids=list(range(args.tensor_parallel_size)), 
+        model_id=args.model_id,
+        task_type=args.task_type,
+        tensor_parallel_size=args.tensor_parallel_size,
+        n_generation=args.n_generation,
+        temperature=args.temperature,
+        max_tokens=args.max_tokens,
+        top_p=args.top_p,
+        top_k=args.top_k,
+        min_p=args.min_p,
+        logprobs=args.logprobs,
+        batch_size=args.batch_size
+    )
+    
     # Process each category
     for category in categories:
         try:
             dataset = load_dataset(args.data_path, split=category)
         except:
             with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:
-                dataset = Dataset.from_list(json.load(f))
+                dataset = json.load(f)
         
         print(f"  Loaded {len(dataset)} items")
         
-        # Split and distribute work
-        chunks = split_dataset_for_gpus(dataset, num_processes)
-        active_workers = 0
-        
-        for i, chunk in enumerate(chunks):
-            if len(chunk) > 0:
-                task_queue.put((category, chunk))
-                active_workers += 1
-                print(f"  Assigned {len(chunk)} items to process {i}")
-        
-        # Collect results
-        all_results = []
-        for _ in range(active_workers):
-            results = result_queue.get()
-            all_results.extend(results)
+        all_results = worker.process_batch(category, dataset)
         
         # Save results
         output_file = os.path.join(args.output_dir, f"{category}_reward.json")
         with open(output_file, "w") as f:
             json.dump(all_results, f, indent=4)
-
-    # Shutdown workers
-    print("Shutting down workers...")
-    for _ in range(num_processes):
-        task_queue.put(None)
-    for p in processes:
-        p.join()
 
 if __name__ == "__main__":
     main()

@@ -48,7 +48,7 @@ def truncate_after_last_boxed_step(text):
     end_index = last_match.end()  # keep the full match
     return text[:end_index]
 
-def split_dataset_for_gpus(dataset, num_gpus):
+def split_dataset_for_gpus(dataset: Dataset, num_gpus: int):
     batch_size = len(dataset) // num_gpus
     
     batches = []
@@ -59,11 +59,7 @@ def split_dataset_for_gpus(dataset, num_gpus):
         else:
             end_idx = (i + 1) * batch_size
         
-        if isinstance(dataset, Dataset):
-            batch_data = dataset.select(range(start_idx, end_idx))
-        else:
-            batch_data = dataset[start_idx:end_idx]
-        
+        batch_data = dataset.select(range(start_idx, end_idx))        
         batches.append(batch_data)
     
     return batches

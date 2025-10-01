@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import torch
 import multiprocessing as mp
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 
 from discriminative.utils import split_dataset_for_gpus
 from discriminative.reward_model import RewardModel
@@ -116,8 +116,8 @@ def main():
         try:
             dataset = load_dataset(args.data_path, split=category)
         except:
-            with open(os.path.join(args.input_dir, f"{category}.json"), "r") as f:            
-                dataset = json.load(f)        
+            with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:            
+                dataset = Dataset.from_list(json.load(f))
         
         print(f"Dataset loaded: {len(dataset)} items")
         

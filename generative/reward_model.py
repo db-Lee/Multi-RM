@@ -8,6 +8,7 @@ from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
 
 from generative.prompt_formats import CHAT_TEMPLATE, ORM_PROMPT_FORMAT, PRM_PROMPT_FORMAT
+from datasets import Dataset
 
 class RewardModel:
     def __init__(
@@ -76,14 +77,14 @@ class RewardModel:
         
         self.prompt_format = ORM_PROMPT_FORMAT if task_type == "dORM" else PRM_PROMPT_FORMAT
     
-    def process_batch(self, category, dataset):
+    def process_batch(self, category: str, dataset: Dataset):
         """Process a dataset batch for a specific category."""
         processed_results = []
         
         for batch_start in tqdm(range(0, len(dataset), self.batch_size), 
                                desc=f"P{self.process_id}-{category}"):
             batch_end = min(batch_start + self.batch_size, len(dataset))
-            batch_data = dataset[batch_start:batch_end]
+            batch_data = dataset.select(range(batch_start, batch_end))
             
             # Prepare prompts
             batch_prompts = []
