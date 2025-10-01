@@ -238,7 +238,7 @@ Please find the assets of this repo below, including training and test datasets,
 
 ---
 
-### Citation
+## Citation
 ```
 @article{multi-rm,
   title   = {Rethinking Reward Models for Multi-Domain Test-Time Scaling},
