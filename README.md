@@ -1,5 +1,5 @@
 # Rethinking Reward Models for Multi-Domain Test-Time Scaling
-[![arXiv](https://img.shields.io/badge/arXiv-Read%20paper-b31b1b?style=flat&logo=arXiv&logoColor=white)](https://arxiv.org/abs/ARXIV_ID)
+[![arXiv](https://img.shields.io/badge/arXiv-Read%20paper-b31b1b?style=flat&logo=arXiv&logoColor=white)](https://arxiv.org/abs/2510.00492)
 
 This repository contains the codebase for our paper, "**Rethinking Reward Models for Multi-Domain Test-Time Scaling**."
 
@@ -234,7 +234,7 @@ Please find the assets of this repo below, including training and test datasets,
 @article{multi-rm,
   title   = {Rethinking Reward Models for Multi-Domain Test-Time Scaling},
   author  = {Lee, Dong Bok and Lee, Seanie and Park, Sangwoo and Kang, Minki and Baek, Jinheon and Kim, Dongki and Wagner, Dominik and Jin, Jiongdao and Lee, Heejun and Bocklet, Tobias and Wang, Jinyu and Fu, Jingjing and Hwang, Sung Ju and Bian, Jiang and Song, Lei},
-  journal = {arXiv preprint arXiv:25xx.xxxxx},
+  journal = {arXiv preprint arXiv:2510.00492},
   year    = {2025}
 }
 
