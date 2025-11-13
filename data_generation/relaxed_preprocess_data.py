@@ -7,7 +7,7 @@ import random
 from tqdm import tqdm
 
 from transformers import AutoTokenizer
-from data_generation.utils import parse_orm_label, parse_prm_label, trim_after_first_verdict, truncate_after_last_boxed_step
+from data_generation.utils import parse_prm_label, truncate_after_last_boxed_step
 
 def is_valid_label_format(label, K):
     # Check 1: No np.nan
@@ -73,32 +73,18 @@ def get_prm_label(data):
 class DatasetPreprocessor:
     def __init__(self, args):
         self.args = args
-        if args.task_type == "gORM": 
-            self.processor = {
-                "preprocess": trim_after_first_verdict,
-                "parse label": parse_orm_label,
-                "get label": get_orm_label,
-                "parse condition": lambda parsed_label, K: not np.isnan(parsed_label),
-                "correctness condition": lambda parsed_label, label: parsed_label == label,
-                "get yes_or_no": lambda parsed_label: None,
-                "format": lambda critique, yes_or_no: f"<think>\nLet's verify step by step:{critique}",
-                "process cot": lambda cot, label: cot,
-                "check positive": lambda label: label == 1,
-                "check negative": lambda label: label == -1
-            }
-        else:
-            self.processor = {
-                "preprocess": truncate_after_last_boxed_step,
-                "parse label": parse_prm_label,
-                "get label": get_prm_label,
-                "parse condition": lambda parsed_label, K: is_valid_label_format(parsed_label, K),
-                "correctness condition": lambda parsed_label, label: np.array_equal(parsed_label, label),
-                "get yes_or_no": lambda parsed_label: "No" if -1 in parsed_label else "Yes",
-                "format": lambda critique, yes_or_no: f"<think>\nLet's verify step by step:{critique}\nIs the solution correct? {yes_or_no}",
-                "process cot": lambda cot, label: cot[:label.index(-1)+1] if -1 in label else cot,
-                "check positive": lambda label: all([l==1 for l in label]),
-                "check negative": lambda label: -1 in label
-            }
+        self.processor = {
+            "preprocess": truncate_after_last_boxed_step,
+            "parse label": parse_prm_label,
+            "get label": get_prm_label,
+            "parse condition": lambda parsed_label, K: is_valid_label_format(parsed_label, K),
+            "correctness condition": lambda parsed_label, label: (label == -1) == (-1 in parsed_label),
+            "get yes_or_no": lambda parsed_label: "No" if -1 in parsed_label else "Yes",
+            "format": lambda critique, yes_or_no: f"<think>\nLet's verify step by step:{critique}\nIs the solution correct? {yes_or_no}",
+            "process cot": lambda cot, label: cot[:label.index(-1)+1] if -1 in label else cot,
+            "check positive": lambda label: all([l==1 for l in label]),
+            "check negative": lambda label: -1 in label
+        }
         self.tokenizer = AutoTokenizer.from_pretrained(args.model_id)
     
     def _process_single_example(self, data, seen_critiques):
@@ -125,12 +111,13 @@ class DatasetPreprocessor:
         if len(data["cot"]) == 0:
             return None, "0 cot"
         
-        # not parsable
+        # not parsable        
         if not self.processor["parse condition"](parsed_label, len(data["cot"])):
             return None, "not parsable"
         
-        # correctness        
-        if not self.processor["correctness condition"](parsed_label, label):
+        # correctness 
+        final_answer_correct = get_orm_label(data)       
+        if not self.processor["correctness condition"](parsed_label, final_answer_correct):
             return None, "incorrect label"
         
         # Check token length
@@ -147,7 +134,7 @@ class DatasetPreprocessor:
         formatted_critique = self.processor["format"](critique, self.processor["get yes_or_no"](parsed_label))
                 
         return {
-            "q_id": data["q_id"],            
+            "q_id": data["q_id"],
             "question": data["question"],
             "cot_id": data["cot_id"],             
             "cot": self.processor["process cot"](data["cot"], label),
@@ -274,7 +261,6 @@ def main():
                        choices=['law', 'psychology', 'chemistry', 'biology', 'physics', 
                                'history', 'economics', 'math', 'business', 'philosophy', 
                                'health', 'engineering', 'computer_science', 'other', 'prm800k', 'all'])
-    parser.add_argument("--task_type", type=str, default="gORM", choices=['gORM', 'gPRM'])
     parser.add_argument("--max_tokens", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
     

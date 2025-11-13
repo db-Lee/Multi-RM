@@ -22,4 +22,5 @@ jobs/
 # Ignore amltignore
 .amltignore
 
+./data_generation/relaxed_preprocess_data.py
 model_cache

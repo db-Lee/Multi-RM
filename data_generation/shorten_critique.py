@@ -51,7 +51,7 @@ def main():
     parser.add_argument("--model_id", type=str, default="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B")
     parser.add_argument("--input_dir", type=str, required=True)
     parser.add_argument("--output_dir", type=str)
-    parser.add_argument("--category", type=str, default="law", 
+    parser.add_argument("--category", type=str, default="all", 
                        choices=['law', 'psychology', 'chemistry', 'biology', 'physics', 
                                'history', 'economics', 'math', 'business', 'philosophy', 
                                'health', 'engineering', 'computer_science', 'other', 'prm800k', 'all'])
@@ -80,7 +80,7 @@ def main():
         new_dataset = []
         for data in dataset:
             new_data = data.copy()
-            new_data["critique"] = shorten(data["critique"], args.task_type, data["label"])
+            new_data["critique"] = shorten(data["critique"], args.task_type, data["labels"])
             if check_input:
                 print(new_data["critique"])
                 check_input = False
