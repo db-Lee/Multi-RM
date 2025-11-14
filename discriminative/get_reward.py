@@ -103,7 +103,9 @@ def main():
     if num_gpus > 1:
         mp.set_start_method('spawn', force=True)
 
-    if args.category == "all":
+    if "GPQA-diamond" in args.data_path:
+        category_list = ["train"]
+    elif args.category == "all":
         category_list = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
                         'history', 'economics', 'math', 'business', 'philosophy', 
                         'health', 'engineering', 'computer_science', 'other']
@@ -111,14 +113,8 @@ def main():
         category_list = [args.category]
 
     for category in category_list:
-        print(f"Loading dataset for category: {category}...")
-        
-        try:
-            dataset = load_dataset(args.data_path, split=category)
-        except:
-            with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:            
-                dataset = Dataset.from_list(json.load(f))
-        
+        print(f"Loading dataset for category: {category}...")        
+        dataset = load_dataset(args.data_path, split=category)        
         print(f"Dataset loaded: {len(dataset)} items")
         
         print(f"Using {num_gpus} processes for processing")

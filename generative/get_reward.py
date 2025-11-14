@@ -109,6 +109,8 @@ def main():
     print(f"Using {num_gpus} GPUs with {num_processes} processes")
     
     # Determine categories to process
+    if "GPQA-diamond" in args.data_path:
+        categories = ["train"]
     if args.category == "all":
         categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
                      'history', 'economics', 'math', 'business', 'philosophy', 
@@ -146,12 +148,7 @@ def main():
 
     # Process each category
     for category in categories:
-        try:
-            dataset = load_dataset(args.data_path, split=category)
-        except:
-            with open(os.path.join(args.data_path, f"{category}.json"), "r") as f:
-                dataset = Dataset.from_list(json.load(f))
-        
+        dataset = load_dataset(args.data_path, split=category)        
         print(f"  Loaded {len(dataset)} items")
         
         # Split and distribute work
