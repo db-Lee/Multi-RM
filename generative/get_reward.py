@@ -111,7 +111,7 @@ def main():
     # Determine categories to process
     if "GPQA-diamond" in args.data_path:
         categories = ["train"]
-    if args.category == "all":
+    elif args.category == "all":
         categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
                      'history', 'economics', 'math', 'business', 'philosophy', 
                      'health', 'engineering', 'computer_science', 'other']
