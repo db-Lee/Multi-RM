@@ -275,7 +275,7 @@ def main():
                                'history', 'economics', 'math', 'business', 'philosophy', 
                                'health', 'engineering', 'computer_science', 'other', 'prm800k', 'all'])
     parser.add_argument("--task_type", type=str, default="gORM", choices=['gORM', 'gPRM'])
-    parser.add_argument("--max_tokens", type=int, default=0)
+    parser.add_argument("--max_tokens", type=int, default=8192)
     parser.add_argument("--seed", type=int, default=42)
     
     args = parser.parse_args()
