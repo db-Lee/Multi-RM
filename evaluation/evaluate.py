@@ -349,9 +349,12 @@ def main():
 
     N_max_values = [1, 2, 4, 8, 16]
     
-    categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
-                  'history', 'economics', 'math', 'business', 'philosophy', 
-                  'health', 'engineering', 'computer_science', 'other']
+    if "GPQA-diamond" in args.data_path:
+        categories = ["train"]
+    else:
+        categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
+                    'history', 'economics', 'math', 'business', 'philosophy', 
+                    'health', 'engineering', 'computer_science', 'other']
     
     print(f"Models: {', '.join(args.model_names)}")
     print(f"Strategies: {', '.join([f'{name}({strategy})' for name, strategy in zip(args.model_names, args.strategies)])}")
