@@ -77,7 +77,7 @@ class RewardModel:
             include_stop_str_in_output=True
         )
         
-        self.prompt_format = ORM_PROMPT_FORMAT if task_type == "dORM" else PRM_PROMPT_FORMAT
+        self.prompt_format = ORM_PROMPT_FORMAT if task_type == "gORM" else PRM_PROMPT_FORMAT
     
     def process_batch(self, category: str, dataset: Dataset):
         """Process a dataset batch for a specific category."""
