@@ -47,13 +47,11 @@ class RewardModel:
                 "Verification: Is the answer correct (Yes/No)? Yes",
                 "Verification: Is the answer correct (Yes/No)? No"
             ]
-            self.yes_no_pattern = re.compile(r'Verification: Is the answer correct \(Yes/No\)\? (Yes|No)')
         else:
             self.stop_sequences = [
                 "Is the solution correct? Yes",
                 "Is the solution correct? No"
             ]
-            self.yes_no_pattern = re.compile(r"Is the solution correct\? (Yes|No)")
         
         self.llm = LLM(
             model=model_id,
