@@ -9,7 +9,7 @@ def get_category_name(category: str) -> str:
         category_name = "math"
     elif category == "computer_science":
         category_name = "computer science"
-    elif category == "other":
+    elif category == "other" or category == "train":
         category_name = ""
     else:
         category_name = category
