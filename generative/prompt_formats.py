@@ -1,19 +1,23 @@
 CHAT_TEMPLATE = """{% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% set ns = namespace(is_first=false, is_tool=false, is_output_first=true, system_prompt='') %}{%- for message in messages %}{%- if message['role'] == 'system' %}{% set ns.system_prompt = message['content'] %}{%- endif %}{%- endfor %}{{bos_token}}{{ns.system_prompt}}{%- for message in messages %}{%- if message['role'] == 'user' %}{%- set ns.is_tool = false -%}{{'<｜User｜>' + message['content']}}{%- endif %}{%- if message['role'] == 'assistant' and message['content'] is none %}{%- set ns.is_tool = false -%}{%- for tool in message['tool_calls']%}{%- if not ns.is_first %}{{'<｜Assistant｜><｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '\n' + '```json' + '\n' + tool['function']['arguments'] + '\n' + '```' + '<｜tool▁call▁end｜>'}}{%- set ns.is_first = true -%}{%- else %}{{'\n' + '<｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '\n' + '```json' + '\n' + tool['function']['arguments'] + '\n' + '```' + '<｜tool▁call▁end｜>'}}{{'<｜tool▁calls▁end｜><｜end▁of▁sentence｜>'}}{%- endif %}{%- endfor %}{%- endif %}{%- if message['role'] == 'assistant' and message['content'] is not none %}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>' + message['content'] + '<｜end▁of▁sentence｜>'}}{%- set ns.is_tool = false -%}{%- else %}{% set content = message['content'] %}{{'<｜Assistant｜>' + content + '<｜end▁of▁sentence｜>'}}{%- endif %}{%- endif %}{%- if message['role'] == 'tool' %}{%- set ns.is_tool = true -%}{%- if ns.is_output_first %}{{'<｜tool▁outputs▁begin｜><｜tool▁output▁begin｜>' + message['content'] + '<｜tool▁output▁end｜>'}}{%- set ns.is_output_first = false %}{%- else %}{{'\n<｜tool▁output▁begin｜>' + message['content'] + '<｜tool▁output▁end｜>'}}{%- endif %}{%- endif %}{%- endfor -%}{% if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{% endif %}{% if add_generation_prompt and not ns.is_tool %}{{'<｜Assistant｜><think>\n'}}{% endif %}"""
 
+MATH_CATEGORIES = ["prm800k", "gsm8k", "math", "olympiadbench", "omnimath"]
+
+CATEGORIES = [
+    'law', 'psychology', 'chemistry', 'biology', 'physics', 
+    'history', 'economics', 'math', 'business', 'philosophy', 
+    'health', 'engineering', 'computer_science'
+]
+
 def get_category_name(category: str) -> str:
-    if category == "prm800k" or \
-        category == "gsm8k" or \
-            category == "math" or \
-                category == "olympiadbench" or \
-                    category == "omnimath":
-        category_name = "math"
-    elif category == "computer_science":
-        category_name = "computer science"
-    elif category == "other" or category == "train":
-        category_name = ""
+    category_name = category.lower()
+    if category_name in MATH_CATEGORIES:
+        return "math"
+    elif category_name == "computer_science":
+        return "computer science"
+    elif category_name in CATEGORIES:
+        return category_name
     else:
-        category_name = category
-    return category_name
+        return ""
     
 def DATA_PRM_PROMPT_FORMAT(category: str, question: str, steps: list[str]) -> str:
     category_name = get_category_name(category)

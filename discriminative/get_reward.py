@@ -104,7 +104,7 @@ def main():
         mp.set_start_method('spawn', force=True)
 
     if "GPQA-diamond" in args.data_path:
-        category_list = ["train"]
+        category_list = ["test"]
     elif args.category == "all":
         category_list = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
                         'history', 'economics', 'math', 'business', 'philosophy', 
