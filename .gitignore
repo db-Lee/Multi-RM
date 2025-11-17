@@ -6,4 +6,5 @@ evaluation_results/
 local_datasets/
 jobs/
 .amltignore
+.amltconfig
 ./data_generation/relaxed_preprocess_data.py
