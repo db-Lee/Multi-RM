@@ -1,0 +1,1 @@
+{"project_name": "Multi-RM", "storage_account_name": "storage4cluster", "container_name": "amulet", "blob_storage_account_name": "storage4cluster", "registry_name": "projects", "local_path": "/home/v-dongboklee/Multi-RM", "default_output_dir": "/home/v-dongboklee/Multi-RM/amlt", "project_uuid": "7236628480.59526-02c7fc3e-9399", "version": "10.20.1"}
