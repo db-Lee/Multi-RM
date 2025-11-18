@@ -8,3 +8,4 @@ jobs/
 .amltignore
 .amltconfig
 ./data_generation/relaxed_preprocess_data.py
+amlt/
