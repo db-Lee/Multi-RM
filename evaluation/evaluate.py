@@ -7,6 +7,11 @@ import csv
 from collections import defaultdict
 from tqdm import tqdm
 
+ALPHABET = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+]
+
 def exact_match(pred, gold):
     return str(pred).strip().lower() == str(gold).strip().lower()
 
@@ -125,7 +130,10 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
         selected_indices = np.random.choice(len(cot_ids), N_max, replace=False).tolist()
     
     # Get selected data
-    selected_answers = [parsed_answers[i] for i in selected_indices]
+    selected_answers = [
+        parsed_answers[i] if str(parsed_answers[i]).strip() in ALPHABET else "N/A" 
+        for i in selected_indices
+    ]
     
     # Initialize results
     results = {
@@ -350,7 +358,7 @@ def main():
     N_max_values = [1, 2, 4, 8, 16]
     
     if "GPQA-diamond" in args.data_path:
-        categories = ["train"]
+        categories = ["test"]
     else:
         categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
                     'history', 'economics', 'math', 'business', 'philosophy', 
