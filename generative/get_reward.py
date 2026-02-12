@@ -109,7 +109,11 @@ def main():
     print(f"Using {num_gpus} GPUs with {num_processes} processes")
     
     # Determine categories to process
-    if "GPQA-diamond" in args.data_path:
+    if (
+        "GPQA-diamond" in args.data_path
+        or "SuperGPQA" in args.data_path
+        or "TheoremQA" in args.data_path
+    ):
         categories = ["test"]
     elif args.category == "all":
         categories = ['law', 'psychology', 'chemistry', 'biology', 'physics', 

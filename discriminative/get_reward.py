@@ -103,7 +103,11 @@ def main():
     if num_gpus > 1:
         mp.set_start_method('spawn', force=True)
 
-    if "GPQA-diamond" in args.data_path:
+    if (
+        "GPQA-diamond" in args.data_path
+        or "SuperGPQA" in args.data_path
+        or "TheoremQA" in args.data_path
+    ):
         category_list = ["test"]
     elif args.category == "all":
         category_list = ['law', 'psychology', 'chemistry', 'biology', 'physics', 
