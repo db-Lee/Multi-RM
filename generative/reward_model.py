@@ -30,7 +30,8 @@ class RewardModel:
             batch_size=1
         ):
         
-        os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_ids))        
+        os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_ids))
+        os.environ["VLLM_PORT"] = str(29500 + process_id * 100)
         self.process_id = process_id
         self.batch_size = batch_size
         
