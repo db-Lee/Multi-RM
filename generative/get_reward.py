@@ -152,7 +152,11 @@ def main():
 
     # Process each category
     for category in categories:
-        dataset = load_dataset(args.data_path, split=category)        
+        output_file = os.path.join(args.output_dir, f"{category}_reward.json")
+        if os.path.exists(output_file):
+            print(f"  Skipping {category}: {output_file} already exists")
+            continue
+        dataset = load_dataset(args.data_path, split=category)
         print(f"  Loaded {len(dataset)} items")
         
         # Split and distribute work
