@@ -85,6 +85,7 @@ if __name__ == '__main__':
         'history', 'economics', 'math', 'business', 'philosophy', 
         'health', 'engineering', 'computer_science', 'other', "all", 'prm800k'
     })
+    parser.add_argument("--seed", type=int, default=None)
     args = parser.parse_args()
 
     with open(args.config) as stream:
@@ -92,6 +93,10 @@ if __name__ == '__main__':
             configs = edict(yaml.safe_load(stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    if args.seed is not None:
+        configs.training_args.seed = args.seed
+        configs.training_args.data_seed = args.seed
                 
     main(configs)
 

@@ -25,7 +25,7 @@ def merge_adapter_and_save_temp(input_dir, output_dir):
         
         # Load and merge
         base_model = AutoModelForCausalLM.from_pretrained(
-            base_model_name, device_map="cpu", trust_remote_code=True
+            base_model_name, device_map="cpu", trust_remote_code=True, dtype="bfloat16"
         )
         model = PeftModel.from_pretrained(base_model, input_dir)
         merged_model = model.merge_and_unload()
