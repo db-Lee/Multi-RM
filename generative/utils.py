@@ -22,8 +22,8 @@ def get_dataset(configs, tokenizer):
         for data in tqdm(dataset, desc=f"Processing {_category}"):
             prompt = prompt_format(_category, data["question"], data["cot"])
             formatted_dataset.append({
-                "prompt": f"<｜User｜>{prompt}",
-                "completion": f"<｜Assistant｜>{data['critique']}"
+                "prompt": [{"role": "user", "content": prompt}],
+                "completion": [{"role": "assistant", "content": data["critique"]}],
             })           
     
         return Dataset.from_list(formatted_dataset)

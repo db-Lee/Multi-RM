@@ -18,7 +18,8 @@ def setup_model_and_tokenizer(configs):
     tokenizer = AutoTokenizer.from_pretrained(configs.model_id)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.chat_template = CHAT_TEMPLATE
+    if "deepseek" in configs.model_id.lower():
+        tokenizer.chat_template = CHAT_TEMPLATE
     
     model = AutoModelForCausalLM.from_pretrained(
         configs.model_id,

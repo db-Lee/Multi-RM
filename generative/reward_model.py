@@ -34,9 +34,12 @@ class RewardModel:
         os.environ["VLLM_PORT"] = str(29500 + process_id * 100)
         self.process_id = process_id
         self.batch_size = batch_size
-        
+        self.is_deepseek = "deepseek" in model_id.lower()
+        self.is_qwen3 = "qwen3" in model_id.lower()
+
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
-        self.tokenizer.chat_template = CHAT_TEMPLATE
+        if self.is_deepseek:
+            self.tokenizer.chat_template = CHAT_TEMPLATE
         
         self.yes_id = self.tokenizer.encode(" Yes", add_special_tokens=False)[-1]
         self.no_id = self.tokenizer.encode(" No", add_special_tokens=False)[-1]
@@ -89,12 +92,15 @@ class RewardModel:
             
             # Prepare prompts
             batch_prompts = []
+            chat_template_kwargs = {"enable_thinking": False} if self.is_qwen3 else {}
+
             for data in batch_data:
                 for cot in data["cots"]:
                     prompt = self.prompt_format(category, data["question"], cot)
                     prompt = self.tokenizer.apply_chat_template(
                         [{'role': "user", "content": prompt}],
-                        tokenize=False, add_generation_prompt=True, add_special_tokens=False
+                        tokenize=False, add_generation_prompt=True, add_special_tokens=False,
+                        **chat_template_kwargs,
                     ) + "Let's verify step by step:"
                     
                     # Remove BOS token if present (vLLM adds it)

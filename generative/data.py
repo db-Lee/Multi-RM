@@ -60,10 +60,11 @@ def tokenize(example, processing_class, dataset_text_field, assistant_only_loss)
     return processed
 
 def add_eos(example, eos_token):
-    # language modeling case
-    if "text" in example and not example["text"].endswith(eos_token):
+    # language modeling case; skip for conversational (list) format —
+    # apply_chat_template inserts the end-of-turn token automatically
+    if "text" in example and isinstance(example["text"], str) and not example["text"].endswith(eos_token):
         example["text"] = example["text"] + eos_token
-    elif "completion" in example and not example["completion"].endswith(eos_token):
+    elif "completion" in example and isinstance(example["completion"], str) and not example["completion"].endswith(eos_token):
         example["completion"] = example["completion"] + eos_token
     return example
 
