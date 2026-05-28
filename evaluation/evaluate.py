@@ -153,8 +153,10 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
         if ans and str(ans).strip():
             answer_counts[str(ans).strip().lower()] += 1
     
-    majority_answer = max(answer_counts.items(), key=lambda x: x[1])[0]
-    results['majority_vote'] = 1 if exact_match(majority_answer, gold_answer) else 0
+    results['majority_vote'] = 0
+    if answer_counts:
+        majority_answer = max(answer_counts.items(), key=lambda x: x[1])[0]
+        results['majority_vote'] = 1 if exact_match(majority_answer, gold_answer) else 0
     
     # Evaluate each model's reward-dependent methods
     for model_name in model_names:
@@ -165,9 +167,11 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
         selected_rewards = [rewards[i] for i in selected_indices]
         
         # Best-of-N: select answer with highest reward
-        best_idx = np.argmax(selected_rewards)
-        best_answer = selected_answers[best_idx]
-        best_of_n_result = 1 if best_answer and str(best_answer).strip() and exact_match(best_answer, gold_answer) else 0
+        best_of_n_result = 0
+        if selected_rewards:
+            best_idx = np.argmax(selected_rewards)
+            best_answer = selected_answers[best_idx]
+            best_of_n_result = 1 if best_answer and str(best_answer).strip() and exact_match(best_answer, gold_answer) else 0
         
         # Weighted Vote: sum rewards per unique answer
         vote_weights = defaultdict(float)
@@ -175,8 +179,10 @@ def subsample_and_evaluate(entry, model_names, N_max, seed, run_idx):
             if ans and str(ans).strip():
                 vote_weights[str(ans).strip().lower()] += r
         
-        weighted_pred = max(vote_weights.items(), key=lambda x: x[1])[0]
-        weighted_vote_result = 1 if exact_match(weighted_pred, gold_answer) else 0
+        weighted_vote_result = 0
+        if vote_weights:
+            weighted_pred = max(vote_weights.items(), key=lambda x: x[1])[0]
+            weighted_vote_result = 1 if exact_match(weighted_pred, gold_answer) else 0
         
         results['model_results'][model_name] = {
             'best_of_n': best_of_n_result,
