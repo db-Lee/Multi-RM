@@ -166,9 +166,7 @@ python -m evaluation.plot \
 
 Please find the assets of this repo below, including training and test datasets and model checkpoints.
 
-### Datasets
-
-**Training datasets**
+### Training datasets
 
 | Name | Description |
 |:---|:---|
@@ -176,7 +174,7 @@ Please find the assets of this repo below, including training and test datasets 
 | [MMLU-Pro_Llama-3.1-8B-Instruct_gORM_train](https://huggingface.co/datasets/dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_gORM_train) | MMLU-Pro training dataset for gORM. |
 | [MMLU-Pro_Llama-3.1-8B-Instruct_gPRM_train](https://huggingface.co/datasets/dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_gPRM_train) | MMLU-Pro training dataset for gPRM. |
 
-**Test datasets**
+### Test datasets
 
 | Name | Description |
 |:---|:---|
