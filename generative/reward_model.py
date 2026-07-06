@@ -14,10 +14,11 @@ from datasets import Dataset
 
 class RewardModel:
     def __init__(
-            self, 
-            process_id, 
-            gpu_ids, 
+            self,
+            process_id,
+            gpu_ids,
             model_id="dongboklee/gORM-14B",
+            load_path=None,
             task_type="gORM",
             tensor_parallel_size=1,
             n_generation=10,
@@ -29,7 +30,7 @@ class RewardModel:
             logprobs=20,
             batch_size=1
         ):
-        
+
         os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, gpu_ids))
         os.environ["VLLM_PORT"] = str(29500 + process_id * 100)
         self.process_id = process_id
@@ -37,7 +38,12 @@ class RewardModel:
         self.is_deepseek = "deepseek" in model_id.lower()
         self.is_qwen3 = "qwen3" in model_id.lower()
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        # load_path may point at a merged copy of `model_id` (see
+        # generative.merge_lora.resolve_model_for_inference); model_id itself
+        # is kept above only for the backbone-name checks.
+        load_path = load_path or model_id
+
+        self.tokenizer = AutoTokenizer.from_pretrained(load_path)
         if self.is_deepseek:
             self.tokenizer.chat_template = CHAT_TEMPLATE
         
@@ -58,8 +64,8 @@ class RewardModel:
             ]
         
         self.llm = LLM(
-            model=model_id,
-            tokenizer=model_id,
+            model=load_path,
+            tokenizer=load_path,
             tensor_parallel_size=tensor_parallel_size,
             gpu_memory_utilization=0.95,
             trust_remote_code=True

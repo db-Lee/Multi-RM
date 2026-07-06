@@ -2,6 +2,7 @@ import os
 import gc
 import json
 import time
+import shutil
 import argparse
 import multiprocessing as mp
 
@@ -11,6 +12,7 @@ from datasets import load_dataset, Dataset
 
 from generative.utils import split_dataset_for_gpus
 from generative.reward_model import RewardModel
+from generative.merge_lora import resolve_model_for_inference
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -20,13 +22,13 @@ def create_cache(args):
     print("Creating vLLM kernel cache...")
     print(f"Model: {args.model_id}")
     print("=" * 80)
-    
+
     # Create temporary LLM instance to build cache
     print("Initializing temporary vLLM instance (this may take a minute)...")
-    
+
     temp_llm = LLM(
-        model=args.model_id,
-        tokenizer=args.model_id,
+        model=args.load_path,
+        tokenizer=args.load_path,
         tensor_parallel_size=args.tensor_parallel_size,
         gpu_memory_utilization=0.95,
         trust_remote_code=True
@@ -45,9 +47,10 @@ def create_cache(args):
 
 def worker_process(process_id, gpu_ids, task_queue, result_queue, args):
     worker = RewardModel(
-        process_id=process_id, 
-        gpu_ids=gpu_ids, 
+        process_id=process_id,
+        gpu_ids=gpu_ids,
         model_id=args.model_id,
+        load_path=args.load_path,
         task_type=args.task_type,
         tensor_parallel_size=args.tensor_parallel_size,
         n_generation=args.n_generation,
@@ -98,7 +101,14 @@ def main():
     parser.add_argument("--skip_cache", action="store_true", help="Skip cache creation (assume cache exists)")
     
     args = parser.parse_args()
-    
+
+    # Resolve --model_id to a loadable path once, up front. gORM/gPRM
+    # checkpoints are LoRA adapters (no "-merged" variants are published), so
+    # this downloads the adapter from the Hub if needed and merges it with
+    # its base model into a `tmp` subdirectory alongside it; all worker
+    # processes then load from that same merged path.
+    args.load_path, merged_tmp_dir = resolve_model_for_inference(args.model_id)
+
     # Setup
     os.makedirs(args.output_dir, exist_ok=True)
     num_gpus = torch.cuda.device_count()
@@ -186,6 +196,10 @@ def main():
         task_queue.put(None)
     for p in processes:
         p.join()
+
+    if merged_tmp_dir is not None:
+        print(f"Deleting merged model temp dir: {merged_tmp_dir}")
+        shutil.rmtree(merged_tmp_dir, ignore_errors=True)
 
 if __name__ == "__main__":
     main()
