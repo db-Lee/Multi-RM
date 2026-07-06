@@ -15,7 +15,10 @@ from generative.data import add_eos, tokenize
 
 
 def build_example(task_type: str, category: str) -> dict:
-    data_path = "dongboklee/train_gORM" if task_type == "gORM" else "dongboklee/train_gPRM"
+    data_path = (
+        "dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_gORM_train" if task_type == "gORM"
+        else "dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_gPRM_train"
+    )
     prompt_format = ORM_PROMPT_FORMAT if task_type == "gORM" else PRM_PROMPT_FORMAT
 
     print(f"Loading one example from {data_path} / {category} ...")

@@ -78,7 +78,7 @@ def main():
     parser = argparse.ArgumentParser(description='Process rewards for generative reward models')
     
     # I/O arguments
-    parser.add_argument("--data_path", type=str, default="dongboklee/test")
+    parser.add_argument("--data_path", type=str, default="dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_test")
     parser.add_argument("--output_dir", type=str, required=True)
     parser.add_argument("--category", type=str, default="all", 
                        choices=['law', 'psychology', 'chemistry', 'biology', 'physics', 

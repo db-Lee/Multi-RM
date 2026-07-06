@@ -85,7 +85,7 @@ def process_gpu_batch(gpu_id, dataset, args, temp_file=None):
 def main():
     parser = argparse.ArgumentParser(description='Process rewards for discriminative reward models')
     parser.add_argument('--model_id', type=str, required=True)
-    parser.add_argument('--data_path', type=str, default="dongboklee/test")
+    parser.add_argument('--data_path', type=str, default="dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_test")
     parser.add_argument('--output_dir', type=str, required=True)
     parser.add_argument("--category", type=str, default="all", choices={
         'law', 'psychology', 'chemistry', 'biology', 'physics', 
