@@ -197,8 +197,6 @@ Please find the assets of this repo below, including training and test datasets 
 
 ### Model Checkpoints
 
-| Name | Backbone | Trained On |
-|:---|:---|:---|
 | Reward model | Reward backbone | Training data |
 |:---|:---|:---|
 | [dORM-14B](https://huggingface.co/dongboklee/dORM-14B) / [-2](https://huggingface.co/dongboklee/dORM-14B-2) / [-3](https://huggingface.co/dongboklee/dORM-14B-3) / [-4](https://huggingface.co/dongboklee/dORM-14B-4) / [-5](https://huggingface.co/dongboklee/dORM-14B-5) | [DeepSeek-R1-Distill-Qwen-14B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B) | [MMLU-Pro_Llama-3.1-8B-Instruct_train](https://huggingface.co/datasets/dongboklee/MMLU-Pro_Llama-3.1-8B-Instruct_train) |
