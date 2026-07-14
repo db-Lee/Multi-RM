@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 from matplotlib.ticker import MaxNLocator
 from matplotlib.lines import Line2D
-import re
-import argparse    
+import argparse
 
 def get_methods_from_csv(df):
     """Extract and categorize methods from CSV, return selected methods and labels"""
@@ -76,7 +75,7 @@ def save_legend(method_labels, output_filename, plot_oracle):
     
     # Create the legend
     ncol = num_methods + (1 if plot_oracle else 0)
-    legend = ax.legend(handles=legend_elements, loc='center', ncol=ncol, 
+    ax.legend(handles=legend_elements, loc='center', ncol=ncol,
                       fontsize=14, frameon=True, fancybox=True, shadow=True, framealpha=0.9,
                       handlelength=2, handletextpad=0.5, columnspacing=1)
     
@@ -128,8 +127,7 @@ def save_plots(df, methods_to_plot, method_labels, output_filename, y_margin_bot
     
     for i, (domain, display_name) in enumerate(zip(mean_columns, domain_display_names)):
         row = i // num_cols
-        col = i % num_cols
-        
+
         ax = plt.subplot(num_rows, num_cols, i + 1)
         
         # Plot each method across all N values

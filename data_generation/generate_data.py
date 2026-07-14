@@ -64,7 +64,7 @@ class ModelWorker:
                 tokenize=False, add_generation_prompt=True, add_special_tokens=False
             ) + "Let's verify step by step:"
 
-            # vllm add bos token. So we should remove it.
+            # vLLM adds a BOS token, so we remove it.
             bos_token = self.tokenizer.bos_token
             if bos_token is not None and prompt.startswith(bos_token):
                 prompt = prompt[len(bos_token):]

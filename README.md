@@ -23,7 +23,7 @@ pip install -r requirements.txt
 pip install flash-attn --no-build-isolation
 ```
 
-## Synthetic Verfication Rationale Generation for gORM/gPRM (optional)
+## Synthetic Verification Rationale Generation for gORM/gPRM (optional)
 
 ```python
 # TASK_TYPE can be one of:
@@ -143,7 +143,7 @@ python -m evaluation.evaluate \
     dongboklee/dORM-14B-${TEST} \
     dongboklee/dPRM-14B-${TEST} \
     dongboklee/gORM-14B-${TEST} \
-    dongboklee/gPRM-14B-${TEST} \  
+    dongboklee/gPRM-14B-${TEST} \
   --model_names dORM-14B dPRM-14B gORM-14B gPRM-14B \
   --strategies last min mean mean \
   --num_runs 100

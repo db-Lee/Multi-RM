@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import torch
 import multiprocessing as mp
-from datasets import load_dataset, Dataset
+from datasets import load_dataset
 
 from discriminative.utils import split_dataset_for_gpus
 from discriminative.reward_model import RewardModel
@@ -48,12 +48,12 @@ def reconstruct_results(dataset, reward_results):
     return results
 
 def process_gpu_batch(gpu_id, dataset, args, temp_file=None):
-    print(f"Process {gpu_id}: Initializing PRM on GPU {gpu_id}...")
-    
+    print(f"Process {gpu_id}: Initializing reward model on GPU {gpu_id}...")
+
     reward_model = RewardModel(model_id=args.model_id, aggregation="full", device=torch.device(f'cuda:{gpu_id}'))
-    
+
     flattened_data = flatten_all_data(dataset)
-    print(f"Process {gpu_id}: PRM initialized. Starting processing...")
+    print(f"Process {gpu_id}: Reward model initialized. Starting processing...")
     print(f"Process {gpu_id}: Total CoTs to process: {len(flattened_data)}")
     
     reward_results = []
@@ -90,7 +90,7 @@ def main():
     parser.add_argument("--category", type=str, default="all", choices={
         'law', 'psychology', 'chemistry', 'biology', 'physics', 
         'history', 'economics', 'math', 'business', 'philosophy', 
-        'health', 'engineering', 'computer_science', 'other', "all", 'gsm8k', 'math'
+        'health', 'engineering', 'computer_science', 'other', "all", 'gsm8k'
     }, help="Category of problems to process")
     parser.add_argument('--per_device_batch_size', type=int, default=8, help="Batch size for CoT processing")
     

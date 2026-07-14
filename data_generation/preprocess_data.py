@@ -165,7 +165,7 @@ class DatasetPreprocessor:
         n_positive = len(positive_examples)
         n_negative = len(negative_examples)
         
-        print(f"\n=== Balancing Examples ===")
+        print("\n=== Balancing Examples ===")
         print(f"Before: {n_positive} positive, {n_negative} negative")
         
         if n_positive > n_negative:
@@ -238,14 +238,14 @@ class DatasetPreprocessor:
         neg_count = len(examples) - pos_count
         
         if examples:
-            print(f"\n=== Label Distribution ===")
+            print("\n=== Label Distribution ===")
             print(f"Positive examples (correct): {pos_count} ({pos_count/len(examples):.2%})")
             print(f"Negative examples (incorrect): {neg_count} ({neg_count/len(examples):.2%})")
             print(f"Total examples: {len(examples)}")
             
             # Print (q_id, cot_id) diversity statistics
             unique_pairs = set((ex["q_id"], ex["cot_id"]) for ex in examples)
-            print(f"\n=== Diversity Statistics ===")
+            print("\n=== Diversity Statistics ===")
             print(f"Unique (q_id, cot_id) pairs: {len(unique_pairs)}")
             print(f"Examples per unique pair (avg): {len(examples) / len(unique_pairs):.2f}")
         else:

@@ -55,7 +55,7 @@ def main():
                        choices=['law', 'psychology', 'chemistry', 'biology', 'physics', 
                                'history', 'economics', 'math', 'business', 'philosophy', 
                                'health', 'engineering', 'computer_science', 'other', 'prm800k', 'all'])
-    parser.add_argument("--task_type", type=str, default="orm", choices=['gORM', 'gPRM'])
+    parser.add_argument("--task_type", type=str, default="gORM", choices=['gORM', 'gPRM'])
     
     args = parser.parse_args()
     

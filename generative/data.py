@@ -69,9 +69,9 @@ def add_eos(example, eos_token):
     return example
 
 def preprocess_dataset(dataset, tokenizer):
-     # add eos token
+    # add eos token
     map_kwargs = {}
-    map_kwargs["desc"] = f"Adding EOS to dataset"
+    map_kwargs["desc"] = "Adding EOS to dataset"
     dataset = dataset.map(add_eos,
                 fn_kwargs={"eos_token": tokenizer.eos_token},
                 remove_columns=None,

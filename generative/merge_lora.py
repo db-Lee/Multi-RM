@@ -31,7 +31,7 @@ def merge_adapter_and_save_temp(input_dir, output_dir):
         model = PeftModel.from_pretrained(base_model, input_dir)
         merged_model = model.merge_and_unload()
 
-        # Tokenzier
+        # Tokenizer
         tokenizer = AutoTokenizer.from_pretrained(input_dir)
 
         # Save to temp directory

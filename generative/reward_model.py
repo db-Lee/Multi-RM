@@ -1,13 +1,10 @@
 import os
-import re
-import json
 import math
 import numpy as np
 from tqdm import tqdm
 
 from transformers import AutoTokenizer
 from vllm import LLM, SamplingParams
-from vllm.lora.request import LoRARequest
 
 from generative.prompt_formats import CHAT_TEMPLATE, ORM_PROMPT_FORMAT, PRM_PROMPT_FORMAT
 from datasets import Dataset

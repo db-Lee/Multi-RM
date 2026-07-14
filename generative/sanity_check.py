@@ -63,11 +63,11 @@ def main():
     example = build_example(args.task_type, args.category)
     example = add_eos(example, tokenizer.eos_token)
 
-    print("── Raw prompt (first 300 chars) ──────────────────────────────────")
+    print("── Raw prompt ────────────────────────────────────────────────────")
     user_content = example["prompt"][0]["content"]
     print(user_content)
 
-    print("── Raw completion (first 300 chars) ──────────────────────────────")
+    print("── Raw completion ────────────────────────────────────────────────")
     asst_content = example["completion"][0]["content"]
     print(asst_content)
 
@@ -90,7 +90,7 @@ def main():
     input_ids = tokenized["input_ids"]
     mask = tokenized["completion_mask"]
 
-    print(f"── Token counts ──────────────────────────────────────────────────")
+    print("── Token counts ──────────────────────────────────────────────────")
     n_prompt = sum(1 for m in mask if m == 0)
     n_compl = sum(1 for m in mask if m == 1)
     print(f"  Total tokens   : {len(input_ids)}")
