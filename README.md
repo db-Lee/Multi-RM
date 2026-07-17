@@ -214,10 +214,14 @@ Please find the assets of this repo below, including training and test datasets 
 
 ## Citation
 ```
-@article{multi-rm,
-  title   = {Rethinking Reward Models for Multi-Domain Test-Time Scaling},
-  author  = {Lee, Dong Bok and Lee, Seanie and Park, Sangwoo and Kang, Minki and Baek, Jinheon and Kim, Dongki and Wagner, Dominik and Jin, Jiongdao and Lee, Heejun and Bocklet, Tobias and Wang, Jinyu and Fu, Jingjing and Hwang, Sung Ju and Bian, Jiang and Song, Lei},
-  journal = {arXiv preprint arXiv:2510.00492},
-  year    = {2025}
+@article{
+lee2026rethinking,
+title={Rethinking Reward Models for Multi-Domain Test-Time Scaling},
+author={Dong Bok Lee and Seanie Lee and Sangwoo Park and Minki Kang and Jinheon Baek and Dongki Kim and Dominik Wagner and Jiongdao Jin and Heejun Lee and Tobias Bocklet and Jinyu Wang and Jingjing Fu and Sung Ju Hwang and Jiang Bian and Lei Song},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2026},
+url={https://openreview.net/forum?id=PgouBhL7IR},
+note={J2C Certification}
 }
 ```
